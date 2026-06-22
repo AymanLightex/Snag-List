@@ -122,7 +122,18 @@ const isImage = name => ["jpg","jpeg","png","gif","webp"].includes((name||"").sp
 const formatSize = bytes => bytes<1024?""+bytes+"B":bytes<1048576?(bytes/1024).toFixed(1)+"KB":(bytes/1048576).toFixed(1)+"MB";
 
 const fbGet = async () => { try { const r=await fetch(FB_URL+DB_PATH); if(!r.ok)return null; return await r.json(); }catch{return null;} };
-const fbSet = async (data) => { try { await fetch(FB_URL+DB_PATH,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)}); }catch{} };
+const fetchData = async () => {
+try {
+const localData = localStorage.getItem("snagdata");
+if (localData) {
+setDb(JSON.parse(localData));
+}
+} catch (err) {
+console.error(err);
+} finally {
+setLoading(false);
+}
+};
 
 const SAMPLE = {
   projects:[
@@ -552,6 +563,11 @@ function App() {
   const [mSnagDet, setMSnagDet]   = useState(false);
   const [conf, setConf]           = useState(null);
   const pollRef = useRef(null);
+  React.useEffect(() => {
+  if (db) {
+    localStorage.setItem("snagdata", JSON.stringify(db));
+  }
+}, [db]);
 
   useEffect(()=>{
     document.documentElement.setAttribute("data-theme", theme);
