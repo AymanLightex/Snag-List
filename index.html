@@ -563,21 +563,78 @@ function App() {
   const [mSnagDet, setMSnagDet]   = useState(false);
   const [conf, setConf]           = useState(null);
   const pollRef = useRef(null);
-const pollRef = useRef(null);
-
-  React.useEffect(() => {
+React.useEffect(() => {
     if (db) {
-      const timer = setTimeout(() => {
-        localStorage.setItem("snagdata", JSON.stringify(db));
-      }, 50);
-      return () => clearTimeout(timer);
+      localStorage.setItem("snagdata", JSON.stringify(db));
     }
   }, [db]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
+
+  if (loading) {
+    return (
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", background: "var(--background)" }}>
+        <div className="fade-in" style={{ textAlign: "center" }}>
+          <div style={{ width: 64, height: 64, background: "var(--primary)", borderRadius: "50%", display: "flex", justifyContent: "center", alignItems: "center", margin: "0 auto 16px" }}>
+            <Icon d={IC.building} size={28} color="#fff" />
+          </div>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+            <span style={{ fontSize: 24, fontWeight: 900, letterSpacing: "-0.5px" }}>lightex</span>
+          </div>
+          <div style={{ fontSize: 11, color: "var(--text-muted)" }}>
+            <p style={{ color: "var(--text-sub)", fontSize: 13, display: "flex", alignItems: "center", gap: 6, justifyContent: "center" }}>
+              <span className="spin" style={{ width: 8, height: 8, border: "2px solid var(--primary)", borderTopColor: "transparent", borderRadius: "50%", display: "inline-block" }}></span>
+              Loading...
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!userName) {
+    return <Login onEnter={setUserName} />;
+  }
+
+  return (
+    <Layout
+      userName={userName}
+      theme={theme}
+      setTheme={setTheme}
+      db={db}
+      setDb={setDb}
+      projId={projId}
+      setProjId={setProjId}
+      snagId={snagId}
+      setSnagId={setSnagId}
+      filterSt={filterSt}
+      setFilterSt={setFilterSt}
+      filterPr={filterPr}
+      setFilterPr={setFilterPr}
+      filterBrand={filterBrand}
+      setFilterBrand={setFilterBrand}
+      search={search}
+      setSearch={setSearch}
+      mAddProj={mAddProj}
+      setMAddProj={setMAddProj}
+      mEditProj={mEditProj}
+      setMEditProj={setMEditProj}
+      mAddSnag={mAddSnag}
+      setMAddSnag={setMAddSnag}
+      mEditSnag={mEditSnag}
+      setMEditSnag={setMEditSnag}
+      mSnagDet={mSnagDet}
+      setMSnagDet={setMSnagDet}
+      conf={conf}
+      setConf={setConf}
+    />
+  );
 }
+</script>
+</body>
+</html>
   useEffect(()=>{
     document.documentElement.setAttribute("data-theme", theme);
     document.body.setAttribute("data-theme", theme);
