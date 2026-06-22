@@ -110,8 +110,8 @@ const CATEGORY = {
   damage:"Damage",installation:"Installation",payment:"Payment",warranty:"Warranty",other:"Other",
 };
 
-const FB_URL   = "https://lightex-snag-default-rtdb.firebaseio.com";
-const DB_PATH  = "/snagdata.json";
+const FB_URL   = "";
+const DB_PATH  = "";
 const uid      = () => Math.random().toString(36).slice(2,9);
 const today    = () => new Date().toISOString().split("T")[0];
 const fmt      = d => d ? new Date(d).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}) : "—";
@@ -573,7 +573,7 @@ function App() {
   useEffect(()=>{
     if(!userName)return;
     fetchDB();
-    pollRef.current = setInterval(fetchDB, 10000);
+    //pollRef.current = setInterval(fetchDB, 10000);
     return ()=>clearInterval(pollRef.current);
   },[userName]);
 
