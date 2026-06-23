@@ -95,6 +95,7 @@
         localStorage.setItem("lx-user", userName);
       }, [userName]);
 
+      // كود الحفظ التلقائي الفوري السليم والمضمون
       useEffect(() => {
         if (db) {
           localStorage.setItem("snagdata", JSON.stringify(db));
