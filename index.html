@@ -546,7 +546,10 @@ function NameGate({ onEnter }) {
 function App() {
   const [userName, setUserName]   = useState(()=>sessionStorage.getItem("lx-user")||"");
   const [theme, setTheme]         = useState(()=>localStorage.getItem("lx-theme")||"dark");
-  const [db, setDb]               = useState(null);
+  const [db, setDb] = useState(() => {
+  const saved = localStorage.getItem("snagdata");
+  return saved ? JSON.parse(saved) : { projects: [] };
+});
   const [loading, setLoading]     = useState(true);
   const [syncing, setSyncing]     = useState(false);
   const [lastSync, setLastSync]   = useState(null);
@@ -564,10 +567,11 @@ function App() {
   const [conf, setConf]           = useState(null);
   const pollRef = useRef(null);
   React.useEffect(() => {
-  if (!db) return;
 
   const saveTimer = setTimeout(() => {
-    localStorage.setItem("snagdata", JSON.stringify(db));
+   if (db) {
+   localStorage.setItem("snagdata", JSON.stringify(db));
+}
   }, 300);
 
   const btn = document.createElement("button");
